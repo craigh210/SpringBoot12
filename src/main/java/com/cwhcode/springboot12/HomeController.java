@@ -21,7 +21,7 @@ public class HomeController {
 
     @RequestMapping("/")
     public String listActors(Model model) {
-        model.addAttribute("actor", actorRepository.findAll());
+        model.addAttribute("actors", actorRepository.findAll());
         return "list";
     }
 
@@ -40,6 +40,7 @@ public class HomeController {
         try {
             Map uploadResult = cloudc.upload(file.getBytes(), ObjectUtils.asMap("resourcetype", "auto"));
             actor.setHeadshot(uploadResult.get("url").toString());
+            actorRepository.save(actor);
         } catch (IOException e) {
             e.printStackTrace();
             return "redirect:/add";
